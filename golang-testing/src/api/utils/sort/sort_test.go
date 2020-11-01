@@ -9,8 +9,8 @@ import (
 
 func TestBubbleSortOrderDESC(t *testing.T) {
 	// Arrange
-	elements := []int{9, 7, 5, 3, 1, 2, 4, 6, 8, 0}
-	expected := []int{9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
+	elements := getElementsForASC(10000)
+	expected := getElements(10000)
 
 	// Act
 	BubbleSort(elements)
@@ -21,8 +21,8 @@ func TestBubbleSortOrderDESC(t *testing.T) {
 
 func TestBubbleSortAlreadySorted(t *testing.T) {
 	// Arrange
-	elements := []int{5, 4, 3, 2, 1, 0}
-	expected := []int{5, 4, 3, 2, 1, 0}
+	elements := getElements(10000)
+	expected := getElements(10000)
 
 	// Act
 	BubbleSort(elements)
@@ -33,8 +33,8 @@ func TestBubbleSortAlreadySorted(t *testing.T) {
 
 func TestSortOrderASC(t *testing.T) {
 	// Arrange
-	elements := []int{9, 7, 5, 3, 1, 2, 4, 6, 8, 0}
-	expected := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	elements := getElements(10001)
+	expected := getElementsForASC(10001)
 
 	// Act
 	Sort(elements)
@@ -45,8 +45,8 @@ func TestSortOrderASC(t *testing.T) {
 
 func TestSortOrderAlreadySorted(t *testing.T) {
 	// Arrange
-	elements := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
-	expected := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	elements := getElementsForASC(10001)
+	expected := getElementsForASC(10001)
 
 	// Act
 	Sort(elements)
@@ -83,6 +83,14 @@ func getElements(n int) []int {
 	for i := n; i > 0; i-- {
 		result[j] = i
 		j++
+	}
+	return result
+}
+
+func getElementsForASC(n int) []int {
+	result := make([]int, n)
+	for i := 0; i < n; i++ {
+		result[i] = i + 1
 	}
 	return result
 }
