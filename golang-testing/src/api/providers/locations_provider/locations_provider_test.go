@@ -8,13 +8,13 @@ import (
 
 /**
  * TODO: test case
+ * 既存のテストコードは、外部APIを叩いているのでinterfaceを実装してDIする必要がある
  * timeout
  * error from api
  * invalid error interface
  * valid response - invalid json response
  *                - valid json response no error
  */
-
 func TestGetCountryRestClientError(t *testing.T) {
 	// Arrange
 	currency_id := "AR"
@@ -27,7 +27,6 @@ func TestGetCountryRestClientError(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.EqualValues(t, http.StatusInternalServerError, err.Status)
 	assert.EqualValues(t, "invalid restclient error when getting country AR", err.Message)
-
 }
 
 func TestGetCountryNotFound(t *testing.T) {

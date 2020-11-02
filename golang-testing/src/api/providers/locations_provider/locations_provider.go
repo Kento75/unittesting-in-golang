@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/Kento75/unittesting-in-golang/golang-testing/src/api/domain/locations"
 	"github.com/Kento75/unittesting-in-golang/golang-testing/src/api/utils/errors"
-	"github.com/mercadolibre/golang-restclient/rest"
+	"github.com/federicoleon/golang-restclient/rest"
 	"net/http"
 )
 
