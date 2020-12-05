@@ -20,6 +20,8 @@ type User struct {
 }
 
 func init() {
+	sqlclient.StartMockServer()
+
 	var err error
 	dbClient, err = sqlclient.Open("mysql",
 		fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8",
@@ -46,6 +48,16 @@ func main() {
 }
 
 func GetUser(id int64) (*User, error) {
+	sqlclient.AddMock(sqlclient.Mock{
+		Query:   "SELECT id, email FROM users WHERE id=?;",
+		Args:    []interface{}{1},
+		Columns: []string{"id", "email"},
+		Rows: [][]interface{}{
+			{1, "email1"},
+			{2, "email2"},
+		},
+	})
+
 	rows, err := dbClient.Query(queryGetUser, id)
 
 	if err != nil {

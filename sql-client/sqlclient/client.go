@@ -4,6 +4,16 @@ import (
 	"database/sql"
 	"errors"
 	_ "github.com/go-sql-driver/mysql"
+	"os"
+)
+
+const (
+	goEnvironment = "GO_ENVIRONMENT"
+	production    = "production"
+)
+
+var (
+	dbClient SqlClient
 )
 
 type client struct {
@@ -14,7 +24,18 @@ type SqlClient interface {
 	Query(query string, args ...interface{}) (rows, error)
 }
 
+func isProduction() bool {
+	return os.Getenv(goEnvironment) == production
+}
+
 func Open(driverName, dataSourceName string) (SqlClient, error) {
+
+	// モック有効かつ本番環境ではない場合、モックを返す
+	if isMocked && !isProduction() {
+		dbClient = &clientMock{}
+		return dbClient, nil
+	}
+
 	if driverName == "" {
 		return nil, errors.New("invalid driver name")
 	}
@@ -24,11 +45,11 @@ func Open(driverName, dataSourceName string) (SqlClient, error) {
 		return nil, err
 	}
 
-	client := &client{
+	dbClient := &client{
 		db: database,
 	}
 
-	return client, nil
+	return dbClient, nil
 }
 
 func (c client) Query(query string, args ...interface{}) (rows, error) {
